@@ -4,7 +4,7 @@ import {
   Route,
   Navigate,
   Outlet,
-  RouterProvider
+  RouterProvider,
 } from "react-router-dom";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -41,7 +41,8 @@ const router = createBrowserRouter(
         <Route path="/home" Component={Home} />
       </Route>
     </Route>
-  )
+  ),
+  { basename: "/control-de-medios", }
 );
 
 export default App;

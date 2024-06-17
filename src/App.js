@@ -7,12 +7,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import './App.css';
+import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Login }  from './components/Login';
 import { Home }  from './components/Home';
 // import addUser from './migration/users'
-
-const emptyUser = {};
 
 function App() {
   // const [user, setUser] = React.useState(emptyUser);

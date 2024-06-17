@@ -1,29 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { logInWithUsernameAndPassword } from '../services/authentication'
+import { auth } from "../firebase";
 
 export function Login() {
-    const [state, setState] = React.useState({});
-    const authenthicate = () => {
-        console.log({state});
-    }
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [user, loading] = useAuthState(auth);
+  const navigate = useNavigate();
 
-    const setUsername = ({ target }) => {
-        setState((prevState) => ({...prevState, username: target.value}));
-    }
+  useEffect(() => {
+    if (user) navigate("/home");
+  }, [user, navigate]);
 
-    const setPassword = ({ target }) => {
-        setState((prevState) => ({...prevState, password: target.value}))
-    }
-    
-    return (
-        <div className='d-flex flex-column bg-gray center'>
-            <h4 className='align-self-center mt-3'>Login</h4>
-            <div className='d-flex justify-content-center mb-3 mt-4'>
-                <input type='text' placeholder='Usuario' onBlur={setUsername} />
+  if (loading) return 'Loading...';
+
+  return (
+      <div className="login__container">
+          <img src={`${process.env.PUBLIC_URL}/lesp-logo.jpeg`} alt="logo" />
+          <div className="email">
+            <input
+                type="text"
+                className="login__textBox"
+                value={username}
+                onChange={({ target }) => setUsername(target.value)}
+                placeholder="Usuario"
+            />
             </div>
-            <div className='d-flex justify-content-center'>
-                <input type='password' placeholder='Contraseña' onBlur={setPassword} />
-            </div>
-            <button className='mx-5 mt-3 rounded-btn' onClick={authenthicate}>Log in</button>
+        <div className="password">
+            <input
+                type="password"
+                className="login__textBox"
+                value={password}
+                onChange={({ target }) => setPassword(target.value)}
+                placeholder="Contraseña"
+                />
         </div>
-    );
+        <button
+          className="login__btn"
+          onClick={() => logInWithUsernameAndPassword(username, password)}
+        >
+          Login
+        </button>
+      </div>
+  );
 }

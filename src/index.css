@@ -1,0 +1,16 @@
+* { font-family: 'Poppins' }
+
+body {
+	user-select: none;
+	overflow-y: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #dde5f4 !important;
+	height: 100vh;
+}
+
+input {
+    outline: none;
+    border: none;
+}

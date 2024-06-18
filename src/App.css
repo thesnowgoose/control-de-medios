@@ -61,7 +61,11 @@
   font-weight: 600;
 }
 
-.login__btn__sec:hover {
+.login__btn__sec:disabled {
+  background-color: #b9b9b9;
+}
+
+.login__btn__sec:hover:not(:disabled) {
   background-color: #f4f4f4;
 }
 

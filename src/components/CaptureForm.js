@@ -13,6 +13,7 @@ const TODAY = moment().toDate();
 
 export function CaptureForm({ mediosTypes, setGlobalState, user }) {
     const [state, setState] = useState(emptyState);
+    const buttonDisabled = !state.code || !state.amount || !state.date;
     const createRecord = () => {
         addMedio(user, setGlobalState, state);
         setState(emptyState);
@@ -29,9 +30,6 @@ export function CaptureForm({ mediosTypes, setGlobalState, user }) {
                     <option value="" selected disabled>Seleccione Medio</option>
                     { mediosTypes.map((type, index) =>  <option key={index} value={type.code}>{type.code}</option>) }
                 </select>
-                {/* <input type="text" placeholder='Fecha' readOnly/>
-                <input type="text" placeholder='Hora' readOnly/> */}
-                {/* <input type="text" placeholder='Creado Por'/> */}
                 <input type="number" placeholder='Cantidad' name="amount" value={state.amount} onChange={updateField}/>
                 <Datepicker
                     placeholderText='Fecha de entrega'
@@ -44,7 +42,7 @@ export function CaptureForm({ mediosTypes, setGlobalState, user }) {
                     }}
                 />
             </div>
-            <button onClick={createRecord} className='login__btn__sec'>Agregar Medio</button>
+            <button onClick={createRecord} className='login__btn__sec' disabled={buttonDisabled}>Agregar Medio</button>
         </div>
     )
 }

@@ -11,11 +11,8 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Login }  from './components/Login';
 import { Home }  from './components/Home';
-// import addUser from './migration/users'
 
 function App() {
-  // const [user, setUser] = React.useState(emptyUser);
-
   return <RouterProvider router={router} />;
 }
 

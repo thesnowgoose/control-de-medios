@@ -1,7 +1,7 @@
 import React from 'react';
 import { logout } from '../services/authentication';
 
-export function Header({ name }) {
+export function Header({ name = '' }) {
     const username =  name.charAt(0).toUpperCase() + name.slice(1);
     return (
         <div id="header" className='d-flex flex-column mx-4 mb-3'>

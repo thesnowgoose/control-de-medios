@@ -19,7 +19,6 @@ export const logInWithUsernameAndPassword = async (name, password) => {
     try {
         const q = query(collection(db, "users"), where("email", "==", email));
         const docs = await getDocs(q);
-        console.log({ docs });
         if (docs.docs.length) {
             await signInWithEmailAndPassword(auth, email, password);
         } else {
@@ -31,6 +30,6 @@ export const logInWithUsernameAndPassword = async (name, password) => {
     }
   };
 
-  export const logout = () => {
-    signOut(auth);
-  };
+export const logout = () => {
+signOut(auth);
+};

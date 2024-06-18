@@ -61,12 +61,16 @@
   font-weight: 600;
 }
 
-.login__btn__sec:hover {
+.login__btn__sec:disabled {
+  background-color: #b9b9b9;
+}
+
+.login__btn__sec:hover:not(:disabled) {
   background-color: #f4f4f4;
 }
 
 .login__btn:hover {
-  background-color: #363f80;
+  background-color: #30365f;
 }
 
 #home {
@@ -91,8 +95,15 @@
   border-bottom: 1px solid #b3c2d7;
 }
 
-#capture__form input {
+#capture__form input, 
+#capture__form select {
   height: 45px;
+  width: 195px;
   padding-left: 1rem;
   margin-right: 1.5rem;
+  border: none;
+}
+
+select option:first-child {
+    color: #ccc;
 }

@@ -1,12 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { fetchUserName } from '../services/users';
+import { readMediosTypes } from '../services/medios';
 import { auth } from "../firebase";
 import { CaptureForm } from './CaptureForm';
 import { Header } from './Header';
+import "react-datepicker/dist/react-datepicker.css";
+
+const emptyState = {
+    mediosTypes: [],
+    mediosRequests: []
+}
 
 export function Home() {
+    const [state, setState] = useState(emptyState);
     const [user, loading] = useAuthState(auth);
     const navigate = useNavigate();
     if (!loading && user) user.name = user.email.replace('@prepmedios.com', '');// TODO remove
@@ -14,7 +21,8 @@ export function Home() {
     useEffect(() => {
         if (loading) return 'Loading...';
         if (!user) return navigate("/");
-        fetchUserName(user);
+        readMediosTypes(setState);
+        // readMediosRequests();
     }, [user, loading, navigate]);
 
     if (loading) return 'Loading...'
@@ -22,7 +30,7 @@ export function Home() {
     return (
         <div id="home" className='d-flex flex-column'>
             <Header name={user?.name} />
-            <CaptureForm />
+            <CaptureForm mediosTypes={state.mediosTypes} setGlobalState={setState} user={user} />
         </ div>
     )
 }

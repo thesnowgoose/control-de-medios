@@ -11,10 +11,10 @@ const emptyState = {
 
 const TODAY = moment().toDate();
 
-export function CaptureForm({ medios }) {
+export function CaptureForm({ mediosTypes, setGlobalState, user }) {
     const [state, setState] = useState(emptyState);
     const createRecord = () => {
-        addMedio(state);
+        addMedio(user, setGlobalState, state);
         setState(emptyState);
     }
     const updateField = ({ target }) => {
@@ -27,7 +27,7 @@ export function CaptureForm({ medios }) {
             <div className='d-flex justify-content-between mr-4'>
                 <select name="code" id="medios-select" value={state.code} onChange={updateField}>
                     <option value="" selected disabled>Seleccione Medio</option>
-                    { medios.map((medio, index) =>  <option key={index} value={medio.code}>{medio.code}</option>) }
+                    { mediosTypes.map((type, index) =>  <option key={index} value={type.code}>{type.code}</option>) }
                 </select>
                 {/* <input type="text" placeholder='Fecha' readOnly/>
                 <input type="text" placeholder='Hora' readOnly/> */}

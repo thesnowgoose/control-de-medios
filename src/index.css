@@ -1,6 +1,5 @@
-* { font-family: 'Poppins' }
-
 body {
+	font-family: 'Poppins';
 	user-select: none;
 	overflow-y: hidden;
 	display: flex;

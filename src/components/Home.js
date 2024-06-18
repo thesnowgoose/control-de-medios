@@ -5,6 +5,7 @@ import { readMedios } from '../services/medios';
 import { auth } from "../firebase";
 import { CaptureForm } from './CaptureForm';
 import { Header } from './Header';
+import "react-datepicker/dist/react-datepicker.css";
 
 const emptyState = {
     medios: []

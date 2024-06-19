@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { query, getDocs, collection, addDoc } from "firebase/firestore";
+import { query, getDocs, collection, addDoc, doc, updateDoc} from "firebase/firestore";
 import { db } from '../firebase';
 
 const MEDIO_TYPES = ["MET", "XLD", "VB", "HK", "Regan Lowe", "Lauril (S)", "SB", "Sb"  ];
@@ -35,7 +35,7 @@ export async function addMedio(user, setState, { code, date, amount }) {
     const now = moment(new Date());
     const createdDate = now.format('D/MM/yyyy');
     const createdHour = now.format('hh:mm A');
-    const expectedDate = moment(date).format('D/MM/yyyy')
+    const expectedDate = moment(date).format('D/MM/yyyy');
     const medio = {
         code, amount,
         expectedDate,
@@ -46,6 +46,9 @@ export async function addMedio(user, setState, { code, date, amount }) {
 
     const medioRef = await addDoc(collection(db, "mediosRequests"), medio);
     medio.id = medioRef.id;
+    await updateDoc(medioRef, {
+        uid: medioRef.id
+    });
 
     setState((prev) => {
         const mediosRequests = [...prev.mediosRequests, medio];
@@ -53,13 +56,34 @@ export async function addMedio(user, setState, { code, date, amount }) {
     });
 }
 
+export async function updateMedio(user, medio, updated, setState) {
+    const { amount, date } = updated;
+    const medioRef = doc(db, 'mediosRequests', medio.id);
+    const data = {
+        deliverAmount: amount,
+        deliverDate: moment(date).format('D/MM/yyyy'),
+        deliverBy: user.name
+    };
+    await updateDoc(medioRef, data);
+
+    setState((prev) => {
+        const current = prev.mediosRequests.find(m => m.id === medio.id)
+        const filtered = prev.mediosRequests.filter(m => m.id !== medio.id);
+        const mediosRequests = [...filtered, { ...current, ...data }];
+        return { ...prev, mediosRequests };
+    });
+}
+
 const buildMedio = (res) => {
-    const { code, amount, expectedDate, createdDate, createdHour, createdBy } = res.data();
+    const { code, amount, expectedDate, createdDate, createdHour,
+        createdBy, uid, deliverBy, deliverDate, deliverAmount } = res.data();
     return {
+        id: uid,
         code, amount,
         expectedDate,
         createdDate,
         createdHour,
-        createdBy
+        createdBy,
+        deliverBy, deliverDate, deliverAmount 
     }
 }

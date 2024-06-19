@@ -21,13 +21,16 @@ const emptyState = {};
 
 export function Modal({ setMedioSelected, medio }) {
     const [state, setState] = useState(emptyState);
-    const closeModal = () => setMedioSelected(null);
+    const closeModal = () => {
+        setState(emptyState);
+        setMedioSelected(null)
+    };
 
     const updateDate = date => setState(prev => ({ ...prev, date }));
     const updateAmount = ({ target }) => setState(prev => ({ ...prev, amount: target.value }));
 
     const onClick = () => {
-        setMedioSelected(null)
+        closeModal();
     };
 
     return (
@@ -54,6 +57,7 @@ export function Modal({ setMedioSelected, medio }) {
                     <Datepicker
                         placeholderText='Fecha de entrega'
                         dateFormat="dd/MM/yyyy"
+                        portalId="root-portal"
                         minDate={TODAY}
                         selected={state.date}
                         onChange={updateDate}

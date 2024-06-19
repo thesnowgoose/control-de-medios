@@ -15,10 +15,10 @@ export function Header({ name = '', setGlobalState }) {
                 <h4>Bienvenid@ {username}</h4>
                 <div>
                     <button
-                        className="login__btn__sec me-3"
+                        className="login__btn me-3"
                         onClick={() => refresh(setGlobalState)}
                         >
-                        Actualizar Datos
+                        Actualizar
                     </button>
                     <button
                         className="login__btn"

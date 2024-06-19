@@ -1,15 +1,13 @@
 import { query, collection, getDocs, where } from "firebase/firestore";
 import { db } from '../firebase';
 
-export const fetchUserName = async (user) => {
+export const readLoggedUser = async (uid, setState) => {
     try {
-      const q = query(collection(db, "users"), where("uid", "==", user?.uid));
+      const q = query(collection(db, "users"), where("uid", "==", uid));
       const doc = await getDocs(q);
-      const data = doc.docs[0]?.data();
-    //   setName(data.name);
-    console.log({ data });
+      const loggedUser = doc.docs[0]?.data();
+      setState((prev) => ({ ...prev, loggedUser }));
     } catch (err) {
-      console.error(err);
-      alert("An error occured while fetching user data");
+      alert("Error al traer datos del usuario");
     }
   };

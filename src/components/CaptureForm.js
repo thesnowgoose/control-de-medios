@@ -9,7 +9,7 @@ const emptyState = {
     date: '',
 }
 
-const TODAY = moment().toDate();
+export const TODAY = moment().toDate();
 
 export function CaptureForm({ mediosTypes, setGlobalState, user }) {
     const [state, setState] = useState(emptyState);

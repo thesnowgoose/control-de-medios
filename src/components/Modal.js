@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import ReactModal from 'react-modal';
 import Datepicker from 'react-datepicker';
 import { TODAY } from './CaptureForm';

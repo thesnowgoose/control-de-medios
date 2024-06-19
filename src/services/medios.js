@@ -34,11 +34,16 @@ export const readMediosTypes = async (setState) => {
 }
 
 export async function readMediosRequests(setState) {
-    const q = query(collection(db, "mediosRequests"), orderBy("createdDate"), orderBy("createdHour"), limit(50));
+    const q = query(collection(db, "mediosRequests"), orderBy("createdDate", "desc"), orderBy("createdHour", "desc"), limit(50));
     const doc = await getDocs(q);
     if (doc.docs.length === 0) return;
     const mediosRequests = doc.docs.map(buildMedio);
     setState((prev) => ({ ...prev, mediosRequests }));
+}
+
+export function refresh(setState) {
+    setState((prev) => ({ ...prev, mediosRequests: [] }));
+    readMediosRequests(setState);
 }
 
 export async function addMedio(user, setState, { code, date, amount }) {
@@ -61,7 +66,7 @@ export async function addMedio(user, setState, { code, date, amount }) {
     });
 
     setState((prev) => {
-        const mediosRequests = [...prev.mediosRequests, medio];
+        const mediosRequests = [medio, ...prev.mediosRequests];
         return { ...prev, mediosRequests };
     });
 }
@@ -77,9 +82,11 @@ export async function updateMedio(user, medio, updated, setState) {
     await updateDoc(medioRef, data);
 
     setState((prev) => {
-        const current = prev.mediosRequests.find(m => m.id === medio.id)
-        const filtered = prev.mediosRequests.filter(m => m.id !== medio.id);
-        const mediosRequests = [...filtered, { ...current, ...data }];
+        const current = prev.mediosRequests.find(m => m.id === medio.id);
+        const index = prev.mediosRequests.indexOf(current);
+        const mediosRequests = prev.mediosRequests;
+        if (index === -1 ) return prev;
+        mediosRequests[index] = { ...current, ...data };
         return { ...prev, mediosRequests };
     });
 }

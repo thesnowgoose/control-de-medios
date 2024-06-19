@@ -72,6 +72,7 @@
 
 .login__btn__sec:hover:not(:disabled) {
   background-color: #f4f4f4;
+  cursor: pointer;
 }
 
 .login__btn:hover {

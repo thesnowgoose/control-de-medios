@@ -19,6 +19,8 @@ export function Home() {
     const [state, setState] = useState(emptyState);
     const [user, loading] = useAuthState(auth);
     const navigate = useNavigate();
+    const canCreate = state.loggedUser?.rol === 'create';
+
     if (!loading && user) user.name = user.email.replace('@prepmedios.com', '');// TODO remove
 
     useEffect(() => {
@@ -34,8 +36,8 @@ export function Home() {
     return (
         <div id="home" className='d-flex flex-column'>
             <Header name={user?.name} />
-            <CaptureForm mediosTypes={state.mediosTypes} setGlobalState={setState} user={user} />
-            <RecordsList user={state.loggedUser} mediosRequests={state.mediosRequests} />
+            {canCreate && <CaptureForm mediosTypes={state.mediosTypes} setGlobalState={setState} user={user} />}
+            <RecordsList user={state.loggedUser} mediosRequests={state.mediosRequests} setGlobalState={setState}  />
         </ div>
     )
 }

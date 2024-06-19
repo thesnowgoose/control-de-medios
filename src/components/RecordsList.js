@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal } from './Modal';
 
-export function RecordsList({ user, mediosRequests }) {
+export function RecordsList({ user, mediosRequests, setGlobalState }) {
     const [medioSelected, setMedioSelected] = useState(null);
 
     if (!mediosRequests.length) return (
@@ -26,7 +26,7 @@ export function RecordsList({ user, mediosRequests }) {
                     ))}
                 </tbody>
             </table>
-            <Modal medio={medioSelected} setMedioSelected={setMedioSelected} />
+            <Modal user={user} medio={medioSelected} setMedioSelected={setMedioSelected} setGlobalState={setGlobalState} />
         </>
     );
 }
@@ -40,21 +40,26 @@ const TableHeader = () => {
                 <th className=''>Fecha esperada</th>
                 <th className=''>Registro Creado</th>
                 <th className=''>Creado por</th>
+                <th className=''>Estatus</th>
             </tr>
         </thead>
     )
 }
 
 const TableRow = ({ medio, user, setMedioSelected }) => {
-    const showEdit = user?.rol === 'deliver';
+    const isDelivered = !!medio.deliverDate;
+    const showEdit = !isDelivered && user?.rol === 'deliver' || isDelivered;
+    const buttonText = isDelivered ? 'Completado' : 'Pendiente';
     return (
         <tr>
             <td className='record-item'>{medio.code}</td>
             <td className='record-item'>{medio.amount}</td>
             <td className='record-item'>{medio.expectedDate}</td>
             <td className='record-item'>{`${medio.createdDate} a las ${medio.createdHour}`}</td>
-            <td className='record-item d-flex justify-content-between'>{medio.createdBy}
-                { showEdit && <button onClick={() => setMedioSelected(medio)} className='login__btn__sec p-1 px-2'>Entregar</button>}
+            <td className='record-item'>{medio.createdBy}</td>
+            <td className='record-item'>
+                { showEdit ? <button onClick={() => setMedioSelected(medio)} className='login__btn__sec p-1 px-2'>{buttonText}</button> : 
+                <button disabled className='login__btn__sec p-1 px-2'>Pendiente</button>}
             </td>
         </tr>
     )

@@ -13,7 +13,7 @@ export function RecordsList({ user, mediosRequests }) {
             <TableHeader />
             <tbody>
                 {mediosRequests.map((medio, index) => (
-                    <TableRow key={`${medio.code}_${index}`} medio={medio} />
+                    <TableRow key={`${medio.code}_${index}`} medio={medio} user={user} />
                 ))}
             </tbody>
         </table>
@@ -34,14 +34,17 @@ const TableHeader = () => {
     )
 }
 
-const TableRow = ({ medio }) => {
+const TableRow = ({ medio, user }) => {
+    const showEdit = user?.rol === 'deliver';
     return (
         <tr>
             <td className='record-item'>{medio.code}</td>
             <td className='record-item'>{medio.amount}</td>
             <td className='record-item'>{medio.expectedDate}</td>
             <td className='record-item'>{`${medio.createdDate} a las ${medio.createdHour}`}</td>
-            <td className='record-item'>{medio.createdBy}</td>
+            <td className='record-item d-flex justify-content-between'>{medio.createdBy}
+                { showEdit && <button className='login__btn__sec p-1 px-2'>Entregar</button>}
+            </td>
         </tr>
     )
 }

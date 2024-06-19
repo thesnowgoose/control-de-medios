@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { readMediosTypes } from '../services/medios';
+import { readMediosTypes, readMediosRequests } from '../services/medios';
+import { readLoggedUser } from '../services/users';
 import { auth } from "../firebase";
 import { Header } from './Header';
 import { CaptureForm } from './CaptureForm';
@@ -10,7 +11,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const emptyState = {
     mediosTypes: [],
-    mediosRequests: []
+    mediosRequests: [],
+    loggedUser: null
 }
 
 export function Home() {
@@ -23,7 +25,8 @@ export function Home() {
         if (loading) return 'Loading...';
         if (!user) return navigate("/");
         readMediosTypes(setState);
-        // readMediosRequests();
+        readMediosRequests(setState);
+        readLoggedUser(user.uid, setState);
     }, [user, loading, navigate]);
 
     if (loading) return 'Loading...'
@@ -32,7 +35,7 @@ export function Home() {
         <div id="home" className='d-flex flex-column'>
             <Header name={user?.name} />
             <CaptureForm mediosTypes={state.mediosTypes} setGlobalState={setState} user={user} />
-            <RecordsList user={user} mediosRequests={state.mediosRequests} />
+            <RecordsList user={state.loggedUser} mediosRequests={state.mediosRequests} />
         </ div>
     )
 }

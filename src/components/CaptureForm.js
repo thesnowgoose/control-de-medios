@@ -37,6 +37,7 @@ export function CaptureForm({ mediosTypes, setGlobalState, user }) {
                     minDate={TODAY}
                     selected={state.date}
                     onChange={updateDate}
+                    onFocus={e => e.target.blur()}
                     onKeyDown={(e) => {
                         e.preventDefault();
                     }}

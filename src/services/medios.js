@@ -34,7 +34,7 @@ export const readMediosTypes = async (setState) => {
 }
 
 export async function readMediosRequests(setState) {
-    const q = query(collection(db, "mediosRequests"), limit(50));
+    const q = query(collection(db, "mediosRequests"), orderBy("createdDate"), orderBy("createdHour"), limit(50));
     const doc = await getDocs(q);
     if (doc.docs.length === 0) return;
     const mediosRequests = doc.docs.map(buildMedio);

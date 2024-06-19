@@ -1,12 +1,14 @@
 import {
     signInWithEmailAndPassword,
     signOut,
+    // createUserWithEmailAndPassword
 } from "firebase/auth";
 import {
     query,
     getDocs,
     collection,
     where,
+    // addDoc
 } from "firebase/firestore";
 import { db, auth } from '../firebase';
 
@@ -17,6 +19,7 @@ export const logInWithUsernameAndPassword = async (name, password) => {
     const email = `${username}${DOMAIN}`;
     if (!username || !password) return;
     try {
+        // await registerWithEmailAndPassword(username, email, password);
         const q = query(collection(db, "users"), where("email", "==", email));
         const docs = await getDocs(q);
         if (docs.docs.length) {

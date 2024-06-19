@@ -24,12 +24,11 @@ export function Home() {
     if (!loading && user) user.name = user.email.replace('@prepmedios.com', '');// TODO remove
 
     useEffect(() => {
-        if (loading) return 'Loading...';
         if (!user) return navigate("/");
         readMediosTypes(setState);
         readMediosRequests(setState);
         readLoggedUser(user.uid, setState);
-    }, [user, loading, navigate]);
+    }, [user, navigate]);
 
     if (loading) return 'Loading...'
 

@@ -34,7 +34,7 @@ export function Home() {
 
     return (
         <div id="home" className='d-flex flex-column'>
-            <Header name={user?.name} />
+            <Header name={user?.name} setGlobalState={setState} />
             {canCreate && <CaptureForm mediosTypes={state.mediosTypes} setGlobalState={setState} user={user} />}
             <RecordsList user={state.loggedUser} mediosRequests={state.mediosRequests} setGlobalState={setState}  />
         </ div>

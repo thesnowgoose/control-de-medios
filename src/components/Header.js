@@ -1,7 +1,8 @@
 import React from 'react';
 import { logout } from '../services/authentication';
+import { refresh } from '../services/medios';
 
-export function Header({ name = '' }) {
+export function Header({ name = '', setGlobalState }) {
     const username =  name.charAt(0).toUpperCase() + name.slice(1);
     return (
         <div id="header" className='d-flex flex-column mb-3'>
@@ -12,12 +13,20 @@ export function Header({ name = '' }) {
             </div>
             <div className='d-flex flex-row justify-content-between px-4 py-2 align-items-center bg-pearl'>
                 <h4>Bienvenid@ {username}</h4>
-                <button
-                    className="login__btn"
-                    onClick={logout}
-                    >
-                    Log Out
-                </button>
+                <div>
+                    <button
+                        className="login__btn__sec me-3"
+                        onClick={() => refresh(setGlobalState)}
+                        >
+                        Actualizar Datos
+                    </button>
+                    <button
+                        className="login__btn"
+                        onClick={logout}
+                        >
+                        Log Out
+                    </button>
+                </div>
             </div>
         </div>
     )

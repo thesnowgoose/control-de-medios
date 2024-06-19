@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Modal } from './Modal';
 
 export function RecordsList({ user, mediosRequests }) {
+    const [medioSelected, setMedioSelected] = useState(null);
+
     if (!mediosRequests.length) return (
         <div id="empty__list" className='d-flex align-self-center flex-column mt-5 pt-5'>
             <img src={`${process.env.PUBLIC_URL}/ensayo.png`} alt="logo" />
@@ -9,14 +12,22 @@ export function RecordsList({ user, mediosRequests }) {
     )
 
     return (
-        <table id="requests__list" className='px-3 mt-3'>
-            <TableHeader />
-            <tbody>
-                {mediosRequests.map((medio, index) => (
-                    <TableRow key={`${medio.code}_${index}`} medio={medio} user={user} />
-                ))}
-            </tbody>
-        </table>
+        <>
+            <table id="requests__list" className='px-3 mt-3'>
+                <TableHeader />
+                <tbody>
+                    {mediosRequests.map((medio, index) => (
+                        <TableRow
+                            key={`${medio.code}_${index}`}
+                            medio={medio}
+                            user={user}
+                            setMedioSelected={setMedioSelected}
+                        />
+                    ))}
+                </tbody>
+            </table>
+            <Modal medio={medioSelected} setMedioSelected={setMedioSelected} />
+        </>
     );
 }
 
@@ -34,7 +45,7 @@ const TableHeader = () => {
     )
 }
 
-const TableRow = ({ medio, user }) => {
+const TableRow = ({ medio, user, setMedioSelected }) => {
     const showEdit = user?.rol === 'deliver';
     return (
         <tr>
@@ -43,7 +54,7 @@ const TableRow = ({ medio, user }) => {
             <td className='record-item'>{medio.expectedDate}</td>
             <td className='record-item'>{`${medio.createdDate} a las ${medio.createdHour}`}</td>
             <td className='record-item d-flex justify-content-between'>{medio.createdBy}
-                { showEdit && <button className='login__btn__sec p-1 px-2'>Entregar</button>}
+                { showEdit && <button onClick={() => setMedioSelected(medio)} className='login__btn__sec p-1 px-2'>Entregar</button>}
             </td>
         </tr>
     )

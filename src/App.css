@@ -44,6 +44,10 @@
   height: 120px;
 }
 
+.close__btn {
+  cursor: pointer;
+}
+
 .login__btn {
   padding: 1em;
   background: #3e4684;
@@ -161,4 +165,9 @@ select option:first-child {
   text-align: left;
   background-color: #3e4684;
   color: white;
+}
+
+.ReactModal__Content input {
+  border: 1px solid #3e4684;
+  width: 10.5rem;
 }

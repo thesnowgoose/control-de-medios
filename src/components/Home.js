@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { readMediosTypes } from '../services/medios';
+import { readMediosTypes, readMediosRequests } from '../services/medios';
 import { auth } from "../firebase";
 import { Header } from './Header';
 import { CaptureForm } from './CaptureForm';
@@ -23,7 +23,7 @@ export function Home() {
         if (loading) return 'Loading...';
         if (!user) return navigate("/");
         readMediosTypes(setState);
-        // readMediosRequests();
+        readMediosRequests(setState);
     }, [user, loading, navigate]);
 
     if (loading) return 'Loading...'

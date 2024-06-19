@@ -3,6 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-x: scroll;
 }
 
 .login__container {
@@ -106,4 +107,26 @@
 
 select option:first-child {
     color: #ccc;
+}
+
+#requests__list {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#requests__list td, #requests__list th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#requests__list tr:nth-child(even){background-color: #f2f2f2;}
+
+#requests__list tr:hover {background-color: #ddd;}
+
+#requests__list th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #3e4684;
+  color: white;
 }

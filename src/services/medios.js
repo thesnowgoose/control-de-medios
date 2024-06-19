@@ -24,9 +24,9 @@ export const readMediosTypes = async (setState) => {
 }
 
 export async function addMedio(user, setState, { code, date, amount }) {
-    const today = moment();
-    const createdDate = today.format('D/MM/yyyy');
-    const createdHour = today.format('hh:hh')
+    const now = moment(new Date());
+    const createdDate = now.format('D/MM/yyyy');
+    const createdHour = now.format('hh:mm A');
     const expectedDate = moment(date).format('D/MM/yyyy')
     const medio = {
         code, amount,
@@ -36,11 +36,7 @@ export async function addMedio(user, setState, { code, date, amount }) {
         createdBy: user.name
     };
 
-    // const medioRef = await addDoc(collection(db, "mediosRequests"), {
-    //     code,
-    //     amount,
-    //     date,
-    // });
+    // const medioRef = await addDoc(collection(db, "mediosRequests"), medio);
 
     setState((prev) => {
         const mediosRequests = [...prev.mediosRequests, medio];

@@ -3,8 +3,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { readMediosTypes } from '../services/medios';
 import { auth } from "../firebase";
-import { CaptureForm } from './CaptureForm';
 import { Header } from './Header';
+import { CaptureForm } from './CaptureForm';
+import { RecordsList } from './RecordsList';
 import "react-datepicker/dist/react-datepicker.css";
 
 const emptyState = {
@@ -31,6 +32,7 @@ export function Home() {
         <div id="home" className='d-flex flex-column'>
             <Header name={user?.name} />
             <CaptureForm mediosTypes={state.mediosTypes} setGlobalState={setState} user={user} />
+            <RecordsList user={user} mediosRequests={state.mediosRequests} />
         </ div>
     )
 }

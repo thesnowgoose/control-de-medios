@@ -24,7 +24,7 @@ export function CaptureForm({ mediosTypes, setGlobalState, user }) {
     }
     const updateDate = date => setState(prev => ({ ...prev, date }));
     return (
-        <div id="capture__form" className='d-flex justify-content-between py-4 mx-4'>
+        <div id="capture__form" className='d-flex justify-content-between align-items-center py-4 me-4'>
             <div className='d-flex justify-content-between mr-4'>
                 <select name="code" id="medios-select" value={state.code} onChange={updateField}>
                     <option value="" selected disabled>Seleccione Medio</option>
@@ -42,7 +42,7 @@ export function CaptureForm({ mediosTypes, setGlobalState, user }) {
                     }}
                 />
             </div>
-            <button onClick={createRecord} className='login__btn__sec' disabled={buttonDisabled}>Agregar Medio</button>
+            <button onClick={createRecord} className='login__btn__sec' disabled={buttonDisabled}>Agregar</button>
         </div>
     )
 }

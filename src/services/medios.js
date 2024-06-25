@@ -49,7 +49,7 @@ export function refresh(setState) {
 export async function addMedio(user, setState, { code, date, amount, details }) {
     const now = moment(new Date());
     const createdDate = now.format('D/MM/yyyy');
-    const createdHour = now.format('hh:mm A');
+    const createdHour = now.format('HH:mm');
     const expectedDate = moment(date).format('D/MM/yyyy');
     const medio = {
         code, amount,

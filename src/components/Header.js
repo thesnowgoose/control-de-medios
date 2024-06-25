@@ -13,7 +13,7 @@ export function Header({ name = '', setGlobalState }) {
             </div>
             <div className='d-flex flex-row justify-content-between px-4 py-2 align-items-center bg-pearl'>
                 <h4>Bienvenid@ {username}</h4>
-                <div>
+                <div id="buttons-header">
                     <button
                         className="login__btn me-3"
                         onClick={() => refresh(setGlobalState)}

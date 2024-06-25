@@ -22,7 +22,8 @@ const emptyState = {};
 
 export function Modal({ setMedioSelected, setGlobalState, medio, user }) {
     const [state, setState] = useState(emptyState);
-    const isDelivered = !!medio?.deliverDate;
+    const isDetailsView = !!medio?.isDetailsView;
+    const isDelivered = !!medio?.deliverDate || isDetailsView;
 
     const closeModal = () => {
         setState(emptyState);
@@ -57,25 +58,32 @@ export function Modal({ setMedioSelected, setGlobalState, medio, user }) {
                 </tbody>
             </div>
             <div>
-            { isDelivered ? <CompletedTab medio={medio} /> : (
-                <div className='d-flex flex-column mt-5'>
-                    <div className='d-flex flex-row justify-content-between'>
-                        <input type="number" placeholder='Cantidad a entregar' name="amount" value={state.amount} onChange={updateAmount}/>
-                        <Datepicker
-                            placeholderText='Fecha de entrega'
-                            dateFormat="dd/MM/yyyy"
-                            portalId="root-portal"
-                            minDate={TODAY}
-                            selected={state.date}
-                            onChange={updateDate}
-                            onFocus={e => e.target.blur()}
-                            onKeyDown={(e) => {
-                                e.preventDefault();
-                            }}
-                        />
-                    </div>
-                </div>
-            )}
+            { isDetailsView ? <DetailsView medio={medio} /> : 
+            (
+                <>
+                    { isDelivered ? <CompletedTab medio={medio} /> : (
+                        <div className='d-flex flex-column mt-5'>
+                            <div className='d-flex flex-row justify-content-between'>
+                                <input type="number" placeholder='Cantidad a entregar' name="amount" value={state.amount} onChange={updateAmount}/>
+                                <Datepicker
+                                    placeholderText='Fecha de entrega'
+                                    dateFormat="dd/MM/yyyy"
+                                    portalId="root-portal"
+                                    minDate={TODAY}
+                                    selected={state.date}
+                                    onChange={updateDate}
+                                    onFocus={e => e.target.blur()}
+                                    onKeyDown={(e) => {
+                                        e.preventDefault();
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    )}
+                </>
+            )
+             }
+            
             <button className='login__btn py-2 mt-4 w-100' onClick={onClick}>Aceptar</button>
             </div>
       </ReactModal>
@@ -116,4 +124,13 @@ const CompletedTab = ({ medio }) => {
             </table>
         </>
     )
+}
+
+const DetailsView = ({ medio }) => {
+    return (
+        <>
+            <div className='mt-3 h4'>Observaciones:</div>
+            <div>{medio.details}</div>
+        </>
+    );
 }

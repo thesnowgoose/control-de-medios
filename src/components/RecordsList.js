@@ -49,6 +49,7 @@ const TableHeader = () => {
 const TableRow = ({ medio, user, setMedioSelected }) => {
     const isDelivered = !!medio.deliverDate;
     const showEdit = !isDelivered && user?.rol === 'deliver' || isDelivered;
+    const showDetails = medio.details;
     const buttonText = isDelivered ? 'Completado' : 'Pendiente';
     return (
         <tr>
@@ -56,7 +57,10 @@ const TableRow = ({ medio, user, setMedioSelected }) => {
             <td className='record-item'>{medio.amount}</td>
             <td className='record-item'>{medio.expectedDate}</td>
             <td className='record-item'>{`${medio.createdDate} a las ${medio.createdHour}`}</td>
-            <td className='record-item'>{medio.createdBy}</td>
+            <td className='record-item'>
+                <span>{medio.createdBy}</span>
+                { showDetails && <button onClick={() => setMedioSelected({ ...medio, isDetailsView: true})} className='fa fa-eye login__btn__sec p-1 px-2 ms-3'><i /></button> }
+            </td>
             <td className='record-item'>
                 { showEdit ? <button onClick={() => setMedioSelected(medio)} className='login__btn__sec p-1 px-2'>{buttonText}</button> : 
                 <button disabled className='login__btn__sec p-1 px-2'>Pendiente</button>}

@@ -106,14 +106,26 @@
   height: 45px;
   width: 195px;
   padding-left: 1rem;
-  margin-right: 1.5rem;
   border: none;
+}
+
+#capture__form select,
+#capture__form input:not(:last-child) {
+  margin-right: 1.5rem;
 }
 
 @media (max-width: 800px) {
   #header {
     margin-left: 0px !important;
     margin-right: 0px !important;
+  }
+  #header #buttons-header {
+    display: flex;
+    flex-direction: row;
+  }
+  #header #buttons-header .login__btn {
+    height: 4rem;
+    width: 7rem;
   }
   #capture__form,
   #capture__form div:first-child {

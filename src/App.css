@@ -106,8 +106,12 @@
   height: 45px;
   width: 195px;
   padding-left: 1rem;
-  margin-right: 1.5rem;
   border: none;
+}
+
+#capture__form select,
+#capture__form input:not(:last-child) {
+  margin-right: 1.5rem;
 }
 
 @media (max-width: 800px) {

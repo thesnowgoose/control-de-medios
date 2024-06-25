@@ -46,13 +46,14 @@ export function refresh(setState) {
     readMediosRequests(setState);
 }
 
-export async function addMedio(user, setState, { code, date, amount }) {
+export async function addMedio(user, setState, { code, date, amount, details }) {
     const now = moment(new Date());
     const createdDate = now.format('D/MM/yyyy');
     const createdHour = now.format('hh:mm A');
     const expectedDate = moment(date).format('D/MM/yyyy');
     const medio = {
         code, amount,
+        details,
         expectedDate,
         createdDate,
         createdHour,
@@ -93,10 +94,11 @@ export async function updateMedio(user, medio, updated, setState) {
 
 const buildMedio = (res) => {
     const { code, amount, expectedDate, createdDate, createdHour,
-        createdBy, uid, deliverBy, deliverDate, deliverAmount } = res.data();
+        createdBy, uid, deliverBy, deliverDate, deliverAmount, details } = res.data();
     return {
         id: uid,
         code, amount,
+        details,
         expectedDate,
         createdDate,
         createdHour,

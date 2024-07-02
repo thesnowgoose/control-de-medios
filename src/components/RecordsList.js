@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal } from './Modal';
+import moment from 'moment';
 
 export function RecordsList({ user, mediosRequests, setGlobalState }) {
     const [medioSelected, setMedioSelected] = useState(null);
@@ -51,12 +52,13 @@ const TableRow = ({ medio, user, setMedioSelected }) => {
     const showEdit = !isDelivered && user?.rol === 'deliver' || isDelivered;
     const showDetails = medio.details;
     const buttonText = isDelivered ? 'Completado' : 'Pendiente';
+    const { expectedDate, createdDate } = getFormatedDates(medio);
     return (
         <tr>
             <td className='record-item'>{medio.code}</td>
             <td className='record-item'>{medio.amount}</td>
-            <td className='record-item'>{medio.expectedDate}</td>
-            <td className='record-item'>{`${medio.createdDate} a las ${medio.createdHour}`}</td>
+            <td className='record-item'>{expectedDate}</td>
+            <td className='record-item'>{`${createdDate} a las ${medio.createdHour}`}</td>
             <td className='record-item'>
                 <span>{medio.createdBy}</span>
                 { showDetails && <button onClick={() => setMedioSelected({ ...medio, isDetailsView: true})} className='fa fa-eye login__btn__sec p-1 px-2 ms-3'><i /></button> }
@@ -67,4 +69,14 @@ const TableRow = ({ medio, user, setMedioSelected }) => {
             </td>
         </tr>
     )
+}
+
+const getFormatedDates = (medio) => {
+    const { expectedDate, createdDate } = medio;
+    const a = moment(expectedDate, 'yyyy-MM-DD').format('DD/MM/yyyy');
+    const b = moment(createdDate, 'yyyy-MM-DD').format('DD/MM/yyyy');
+    return {
+        expectedDate: a,
+        createdDate: b,
+    }
 }

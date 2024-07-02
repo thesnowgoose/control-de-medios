@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import ReactModal from 'react-modal';
 import Datepicker from 'react-datepicker';
 import { TODAY } from './CaptureForm';
@@ -37,6 +38,7 @@ export function Modal({ setMedioSelected, setGlobalState, medio, user }) {
         closeModal();
     };
 
+    const expDate = medio && moment(medio.expectedDate, 'yyyy-MM-DD').format('DD/MM/yyyy');
     return (
         <ReactModal
             isOpen={!!medio}
@@ -53,7 +55,7 @@ export function Modal({ setMedioSelected, setGlobalState, medio, user }) {
                     <tr>
                         <td className='record-item'>{medio?.code}</td>
                         <td className='record-item'>{medio?.amount}</td>
-                        <td className='record-item'>{medio?.expectedDate}</td>
+                        <td className='record-item'>{expDate}</td>
                     </tr>
                 </tbody>
             </div>
@@ -103,6 +105,7 @@ const TableHeader = () => {
 }
 
 const CompletedTab = ({ medio }) => {
+    const deliverDate = medio?.deliverDate && moment(medio.deliverDate, 'yyyy-MM-DD').format('DD/MM/yyyy');
     return (
         <>
             <h4 className='mt-4'>Datos de entrega:</h4>
@@ -116,7 +119,7 @@ const CompletedTab = ({ medio }) => {
                 </thead>
                 <tbody>
                     <tr>
-                        <td className='record-item'>{medio?.deliverDate}</td>
+                        <td className='record-item'>{deliverDate}</td>
                         <td className='record-item'>{medio?.deliverAmount}</td>
                         <td className='record-item'>{medio?.deliverBy}</td>
                     </tr>

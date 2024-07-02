@@ -77,7 +77,7 @@ export async function updateMedio(user, medio, updated, setState) {
     const medioRef = doc(db, 'mediosRequests', medio.id);
     const data = {
         deliverAmount: amount,
-        deliverDate: moment(date).format('D/MM/yyyy'),
+        deliverDate: moment(date).format('yyyy-MM-DD'),
         deliverBy: user.name
     };
     await updateDoc(medioRef, data);

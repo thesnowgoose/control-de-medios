@@ -63,7 +63,11 @@ export function Modal({ setMedioSelected, setGlobalState, medio, user }) {
             { isDetailsView ? <DetailsView medio={medio} /> : 
             (
                 <>
-                    { isDelivered ? <CompletedTab medio={medio} /> : (
+                    { isDelivered ? (
+                        <>
+                            <DetailsView medio={medio} />
+                            <CompletedTab medio={medio} />
+                        </> ): (
                         <div className='d-flex flex-column mt-5'>
                             <div className='d-flex flex-row justify-content-between'>
                                 <input type="number" placeholder='Cantidad a entregar' name="amount" value={state.amount} onChange={updateAmount}/>

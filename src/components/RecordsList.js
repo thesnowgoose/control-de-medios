@@ -52,6 +52,7 @@ const TableRow = ({ medio, user, setMedioSelected }) => {
     const showEdit = !isDelivered && user?.rol === 'deliver' || isDelivered;
     const showDetails = medio.details;
     const buttonText = isDelivered ? 'Completado' : 'Pendiente';
+    const btnClass = isDelivered ? 'success__btn' : 'fail__btn';
     const { expectedDate, createdDate } = getFormatedDates(medio);
     return (
         <tr>
@@ -64,7 +65,7 @@ const TableRow = ({ medio, user, setMedioSelected }) => {
                 { showDetails && <button onClick={() => setMedioSelected({ ...medio, isDetailsView: true})} className='fa fa-eye login__btn__sec p-1 px-2 ms-3'><i /></button> }
             </td>
             <td className='record-item'>
-                { showEdit ? <button onClick={() => setMedioSelected(medio)} className='login__btn__sec p-1 px-2'>{buttonText}</button> : 
+                { showEdit ? <button onClick={() => setMedioSelected(medio)} className={`login__btn__sec ${btnClass} p-1 px-2`}>{buttonText}</button> : 
                 <button disabled className='login__btn__sec p-1 px-2'>Pendiente</button>}
             </td>
         </tr>

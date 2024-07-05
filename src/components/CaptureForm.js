@@ -45,7 +45,7 @@ export function CaptureForm({ mediosTypes, setGlobalState, user }) {
                         }}
                     />
                 </div>
-                <input type="text" placeholder='Observaciones' className='w-100' name="details" value={state.details} onChange={updateField} />
+                <input type="text" placeholder='Observaciones (Opcional)' className='w-100' name="details" value={state.details} onChange={updateField} />
             </div>
             <button onClick={createRecord} className='login__btn__sec' disabled={buttonDisabled}>Agregar</button>
         </div>

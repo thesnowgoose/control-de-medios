@@ -79,6 +79,24 @@
   background-color: #30365f;
 }
 
+.success__btn {
+  background: #83af85;
+  color: #f7f7f7;
+}
+
+.success__btn:hover:not(:disabled) {
+  background: #6b8d6d;
+}
+
+.fail__btn {
+  background: #d83c4a;
+  color: #f7f7f7;
+}
+
+.fail__btn:hover:not(:disabled) {
+  background: #a4010f;
+}
+
 #home {
   width: 100%;
   height: 100%;

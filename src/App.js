@@ -36,6 +36,7 @@ const router = createBrowserRouter(
         <Route exact path="/login" Component={Login} />
         <Route path="/home" Component={Home} />
       </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Route>
   ),
   { basename: "/control-de-medios", }

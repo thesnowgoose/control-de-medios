@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Modal } from './Modal';
 import moment from 'moment';
+import { Modal } from './Modal';
+import {  getPermissions } from '../utils';
 
 export function RecordsList({ user, mediosRequests, setGlobalState }) {
     const [medioSelected, setMedioSelected] = useState(null);
@@ -48,8 +49,9 @@ const TableHeader = () => {
 }
 
 const TableRow = ({ medio, user, setMedioSelected }) => {
+    const { canDeliver } = getPermissions(user);
     const isDelivered = !!medio.deliverDate;
-    const showEdit = !isDelivered && user?.rol === 'deliver' || isDelivered;
+    const showEdit = !isDelivered && canDeliver|| isDelivered;
     const showDetails = medio.details;
     const buttonText = isDelivered ? 'Completado' : 'Pendiente';
     const btnClass = isDelivered ? 'success__btn' : 'fail__btn';

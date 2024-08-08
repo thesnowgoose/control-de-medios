@@ -1,10 +1,12 @@
 import React from 'react';
 import { logout } from '../services/authentication';
 import { refresh } from '../services/medios';
+import { getPermissions } from '../utils';
 import '../Dropdown.css';
 
-export function Header({ name = '', setGlobalState, hasPermission = false }) {
+export function Header({ name = '', user, setGlobalState }) {
     const username =  name.charAt(0).toUpperCase() + name.slice(1);
+    const { canManage } = getPermissions(user);
     return (
         <div id="header" className='d-flex flex-column mb-3'>
             <div className='d-flex flex-row justify-content-between p-3 bg-white'>
@@ -21,7 +23,7 @@ export function Header({ name = '', setGlobalState, hasPermission = false }) {
                         >
                         Actualizar
                     </button>
-                    { hasPermission ? <Dropdown /> : (
+                    { canManage ? <Dropdown /> : (
                         <button className="login__btn" onClick={logout}>
                             Cerrar Sesión
                         </button>

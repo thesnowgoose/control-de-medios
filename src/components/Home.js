@@ -7,6 +7,7 @@ import { auth } from "../firebase";
 import { Header } from './Header';
 import { CaptureForm } from './CaptureForm';
 import { RecordsList } from './RecordsList';
+import { getPermissions } from '../utils';
 import "react-datepicker/dist/react-datepicker.css";
 
 const emptyState = {
@@ -18,8 +19,8 @@ const emptyState = {
 export function Home() {
     const [state, setState] = useState(emptyState);
     const [user, loading] = useAuthState(auth);
+    const { canCreate } = getPermissions(state.loggedUser);
     const navigate = useNavigate();
-    const canCreate = state.loggedUser?.rol === 'create';
 
     if (!loading && user) user.name = user.email.replace('@prepmedios.com', '');// TODO remove
 
@@ -34,7 +35,7 @@ export function Home() {
 
     return (
         <div id="home" className='d-flex flex-column'>
-            <Header name={user?.name} setGlobalState={setState} />
+            <Header name={user?.name} user={state.loggedUser} setGlobalState={setState} />
             {canCreate && <CaptureForm mediosTypes={state.mediosTypes} setGlobalState={setState} user={user} />}
             <RecordsList user={state.loggedUser} mediosRequests={state.mediosRequests} setGlobalState={setState}  />
         </ div>

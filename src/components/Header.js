@@ -1,8 +1,9 @@
 import React from 'react';
 import { logout } from '../services/authentication';
 import { refresh } from '../services/medios';
+import '../Dropdown.css';
 
-export function Header({ name = '', setGlobalState }) {
+export function Header({ name = '', setGlobalState, hasPermission = false }) {
     const username =  name.charAt(0).toUpperCase() + name.slice(1);
     return (
         <div id="header" className='d-flex flex-column mb-3'>
@@ -13,21 +14,56 @@ export function Header({ name = '', setGlobalState }) {
             </div>
             <div className='d-flex flex-row justify-content-between px-4 py-2 align-items-center bg-pearl'>
                 <h4>Bienvenid@ {username}</h4>
-                <div id="buttons-header">
+                <div id="buttons-header" className='d-flex flex-row align-items-center'>
                     <button
                         className="login__btn me-3"
                         onClick={() => refresh(setGlobalState)}
                         >
                         Actualizar
                     </button>
-                    <button
-                        className="login__btn"
-                        onClick={logout}
-                        >
-                        Log Out
-                    </button>
+                    { hasPermission ? <Dropdown /> : (
+                        <button className="login__btn" onClick={logout}>
+                            Cerrar Sesión
+                        </button>
+                    ) }
                 </div>
             </div>
+        </div>
+    )
+}
+
+const Dropdown = () => {
+    const [open, setOpen] = React.useState(false);
+    const dropdownRef = React.useRef(null);
+    const handleOpen = () => setOpen(!open);
+
+    React.useEffect(() => {
+        const onClick = ({ target }) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(target)) {
+                setOpen(false);
+            }
+        };
+
+        window.addEventListener('click', onClick);
+        return () => window.removeEventListener('click', onClick);
+    }, [dropdownRef, setOpen]);
+
+    return (
+        <div className="dropdown" ref={dropdownRef}>
+            <button onClick={handleOpen} className='fa fa-bars bars p-3'><i /></button>
+            {open ? (
+                <ul className="menu">
+                    <li className="menu-item">
+                        <button onClick={() => {}}>Crear Respaldo</button>
+                    </li>
+                    {/* <li className="menu-item">
+                        <button onClick={() => {}}>Borrar Registros</button>
+                    </li> */}
+                    <li className="menu-item">
+                        <button className="" onClick={logout}>Cerrar Sesión</button>
+                    </li>
+                </ul>
+            ) : null}
         </div>
     )
 }

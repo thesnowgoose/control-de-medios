@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import moment from 'moment';
-import { Modal } from './Modal';
 import {  getPermissions } from '../utils';
+import { openModal } from './modals/Modal';
+import { MediosModal } from './modals/MediosModal';
 
 export function RecordsList({ user, mediosRequests, setGlobalState }) {
-    const [medioSelected, setMedioSelected] = useState(null);
 
     if (!mediosRequests.length) return (
         <div id="empty__list" className='d-flex align-self-center flex-column mt-5 pt-5'>
@@ -23,12 +23,11 @@ export function RecordsList({ user, mediosRequests, setGlobalState }) {
                             key={`${medio.code}_${index}`}
                             medio={medio}
                             user={user}
-                            setMedioSelected={setMedioSelected}
+                            setGlobalState={setGlobalState}
                         />
                     ))}
                 </tbody>
             </table>
-            <Modal user={user} medio={medioSelected} setMedioSelected={setMedioSelected} setGlobalState={setGlobalState} />
         </>
     );
 }
@@ -48,7 +47,7 @@ const TableHeader = () => {
     )
 }
 
-const TableRow = ({ medio, user, setMedioSelected }) => {
+const TableRow = ({ medio, user, setGlobalState }) => {
     const { canDeliver } = getPermissions(user);
     const isDelivered = !!medio.deliverDate;
     const showEdit = !isDelivered && canDeliver|| isDelivered;
@@ -56,6 +55,11 @@ const TableRow = ({ medio, user, setMedioSelected }) => {
     const buttonText = isDelivered ? 'Completado' : 'Pendiente';
     const btnClass = isDelivered ? 'success__btn' : 'fail__btn';
     const { expectedDate, createdDate } = getFormatedDates(medio);
+    
+    const onClick = (isDetailsView) => {
+        const Content = MediosModal;
+        openModal({ setGlobalState, Content, title: 'Pedido:', medio: { ...medio, isDetailsView }});
+    }
     return (
         <tr>
             <td className='record-item'>{medio.code}</td>
@@ -64,10 +68,10 @@ const TableRow = ({ medio, user, setMedioSelected }) => {
             <td className='record-item'>{`${createdDate} a las ${medio.createdHour}`}</td>
             <td className='record-item'>
                 <span>{medio.createdBy}</span>
-                { showDetails && <button onClick={() => setMedioSelected({ ...medio, isDetailsView: true})} className='fa fa-eye login__btn__sec p-1 px-2 ms-3'><i /></button> }
+                { showDetails && <button onClick={() => onClick(true)} className='fa fa-eye login__btn__sec p-1 px-2 ms-3'><i /></button> }
             </td>
             <td className='record-item'>
-                { showEdit ? <button onClick={() => setMedioSelected(medio)} className={`login__btn__sec ${btnClass} p-1 px-2`}>{buttonText}</button> : 
+                { showEdit ? <button onClick={() => onClick(false)} className={`login__btn__sec ${btnClass} p-1 px-2`}>{buttonText}</button> : 
                 <button disabled className='login__btn__sec p-1 px-2'>Pendiente</button>}
             </td>
         </tr>

@@ -8,12 +8,16 @@ import { Header } from './Header';
 import { CaptureForm } from './CaptureForm';
 import { RecordsList } from './RecordsList';
 import { getPermissions } from '../utils';
+import { Modal } from './modals/Modal';
 import "react-datepicker/dist/react-datepicker.css";
 
 const emptyState = {
     mediosTypes: [],
     mediosRequests: [],
-    loggedUser: null
+    loggedUser: null,
+    modalContent: {
+        isOpen: false
+    }
 }
 
 export function Home() {
@@ -31,13 +35,19 @@ export function Home() {
         readLoggedUser(user.uid, setState);
     }, [user, navigate]);
 
-    if (loading) return 'Loading...'
+    if (loading) return 'Loading...';
+
+    const setIsOpen = (isOpen) => {
+        const { modalContent } = state;
+        setState({ ...state, modalContent: { ...modalContent, isOpen } });
+    };
 
     return (
         <div id="home" className='d-flex flex-column'>
             <Header name={user?.name} user={state.loggedUser} setGlobalState={setState} />
             {canCreate && <CaptureForm mediosTypes={state.mediosTypes} setGlobalState={setState} user={user} />}
-            <RecordsList user={state.loggedUser} mediosRequests={state.mediosRequests} setGlobalState={setState}  />
-        </ div>
+            <RecordsList user={state.loggedUser} mediosRequests={state.mediosRequests} setGlobalState={setState} />
+            <Modal {...state.modalContent} setIsOpen={setIsOpen} />
+        </div>
     )
 }

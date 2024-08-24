@@ -2,9 +2,12 @@ import React from 'react';
 import { logout } from '../services/authentication';
 import { refresh } from '../services/medios';
 import { getPermissions } from '../utils';
+import { openModal } from './modals/Modal';
+import { ExportModal } from './modals/ExportModal';
 import '../Dropdown.css';
 
-export function Header({ name = '', user, setGlobalState }) {
+export function Header({ name = '', state, setGlobalState }) {
+    const { loggedUser: user, mediosRequests } = state;
     const username =  name.charAt(0).toUpperCase() + name.slice(1);
     const { canManage } = getPermissions(user);
     return (
@@ -23,7 +26,7 @@ export function Header({ name = '', user, setGlobalState }) {
                         >
                         Actualizar
                     </button>
-                    { canManage ? <Dropdown /> : (
+                    { canManage ? <Dropdown setGlobalState={setGlobalState} mediosRequests={mediosRequests} /> : (
                         <button className="login__btn" onClick={logout}>
                             Cerrar Sesión
                         </button>
@@ -34,10 +37,15 @@ export function Header({ name = '', user, setGlobalState }) {
     )
 }
 
-const Dropdown = () => {
+const Dropdown = ({ setGlobalState, mediosRequests }) => {
     const [open, setOpen] = React.useState(false);
     const dropdownRef = React.useRef(null);
     const handleOpen = () => setOpen(!open);
+
+    const onClick = () => {
+        const Content = ExportModal;
+        openModal({ setGlobalState, Content, title: 'Crear Respaldo', mediosRequests });
+    }
 
     React.useEffect(() => {
         const onClick = ({ target }) => {
@@ -56,11 +64,8 @@ const Dropdown = () => {
             {open ? (
                 <ul className="menu">
                     <li className="menu-item">
-                        <button onClick={() => {}}>Crear Respaldo</button>
+                        <button onClick={() => onClick()}>Crear Respaldo</button>
                     </li>
-                    {/* <li className="menu-item">
-                        <button onClick={() => {}}>Borrar Registros</button>
-                    </li> */}
                     <li className="menu-item">
                         <button className="" onClick={logout}>Cerrar Sesión</button>
                     </li>

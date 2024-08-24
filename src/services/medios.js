@@ -1,5 +1,9 @@
 import moment from 'moment';
-import { query, getDocs, collection, addDoc, doc, updateDoc, orderBy, limit } from "firebase/firestore";
+import
+    { query, getDocs, collection,
+      addDoc, deleteDoc, limit,
+      doc, updateDoc, orderBy }
+from "firebase/firestore";
 import { db } from '../firebase';
 
 // const MEDIO_TYPES = ["MET", "XLD", "VB", "HK", "Regan Lowe", "Lauril (S)", "SB", "Sb"  ];
@@ -34,7 +38,7 @@ export const readMediosTypes = async (setState) => {
 }
 
 export async function readMediosRequests(setState) {
-    const q = query(collection(db, "mediosRequests"), orderBy("createdDate", "desc"), orderBy("createdHour", "desc"), limit(50));
+    const q = query(collection(db, "mediosRequests"), orderBy("createdDate", "desc"), orderBy("createdHour", "desc"), limit(70));
     const doc = await getDocs(q);
     if (doc.docs.length === 0) return;
     const mediosRequests = doc.docs.map(buildMedio);
@@ -92,6 +96,19 @@ export async function updateMedio(user, medio, updated, setState) {
     });
 }
 
+export function exportMedios(medios) {
+    exportJSONToCSV(medios);
+}
+
+export function removeMedios(completedMedios, setGlobalState) {
+    const remove = async (medio) => {
+        const medioRef = doc(db, 'mediosRequests', medio.id);
+        await deleteDoc(medioRef);
+    }
+    completedMedios.forEach(remove);
+    refresh(setGlobalState);
+}
+
 const buildMedio = (res) => {
     const { code, amount, expectedDate, createdDate, createdHour,
         createdBy, uid, deliverBy, deliverDate, deliverAmount, details } = res.data();
@@ -105,4 +122,26 @@ const buildMedio = (res) => {
         createdBy,
         deliverBy, deliverDate, deliverAmount 
     }
+}
+
+function exportJSONToCSV(objArray) {
+const today = moment(new Date()).format('DD-MMM-yyyy');
+const arr = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray;
+const str =
+    `${Object.keys(arr[0])
+    .map((value) => `"${value}"`)
+    .join(',')}` + '\r\n';
+
+const csvContent = arr.reduce((st, next) => {
+    st +=
+    `${Object.values(next)
+        .map((value) => `"${value}"`)
+        .join(',')}` + '\r\n';
+    return st;
+}, str);
+var element = document.createElement('a');
+element.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvContent);
+element.target = '_blank';
+element.download = `${today}.csv`;
+element.click();
 }

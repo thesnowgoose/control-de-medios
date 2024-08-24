@@ -58,7 +58,7 @@ const TableRow = ({ medio, user, setGlobalState }) => {
     
     const onClick = (isDetailsView) => {
         const Content = MediosModal;
-        openModal({ setGlobalState, Content, title: 'Pedido:', medio: { ...medio, isDetailsView }});
+        openModal({ setGlobalState, Content, user, title: 'Pedido:', medio: { ...medio, isDetailsView }});
     }
     return (
         <tr>

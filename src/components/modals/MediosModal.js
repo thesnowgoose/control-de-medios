@@ -22,7 +22,7 @@ export function MediosModal({ setGlobalState, medio, user, setIsOpen }) {
     const expDate = medio && moment(medio.expectedDate, 'yyyy-MM-DD').format('DD/MM/yyyy');
     return (
         <div>
-            <div id="requests__list" className=''>
+            <div id="requests__list">
                 <TableHeader />
                 <tbody>
                     <tr>
@@ -62,10 +62,9 @@ export function MediosModal({ setGlobalState, medio, user, setIsOpen }) {
                 </>
             )
              }
-            
-            <button className='login__btn py-2 mt-4 w-100' onClick={onClick}>Aceptar</button>
+                <button className='login__btn py-2 mt-4 w-100' onClick={onClick}>Aceptar</button>
             </div>
-      </div>
+        </div>
     );
 }
 

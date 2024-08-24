@@ -38,6 +38,6 @@ export function Modal({ Content, title, isOpen, ...props }) {
 
 export const openModal = ({ setGlobalState, Content, ...props }) => {
     setGlobalState((prevState) => {
-        return { ...prevState, modalContent: { Content, isOpen: true, ...props } }
+        return { ...prevState, modalContent: { setGlobalState, Content, isOpen: true, ...props } }
     })
 };

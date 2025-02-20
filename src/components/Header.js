@@ -9,7 +9,7 @@ import '../Dropdown.css';
 export function Header({ name = '', state, setGlobalState }) {
     const { loggedUser: user, mediosRequests } = state;
     const username =  name.charAt(0).toUpperCase() + name.slice(1);
-    const { canManage } = getPermissions(user);
+    const { canManage, canAdd } = getPermissions(user);
     return (
         <div id="header" className='d-flex flex-column mb-3'>
             <div className='d-flex flex-row justify-content-between p-3 bg-white'>
@@ -20,12 +20,14 @@ export function Header({ name = '', state, setGlobalState }) {
             <div className='d-flex flex-row justify-content-between px-4 py-2 align-items-center bg-pearl'>
                 <h4>Bienvenid@ {username}</h4>
                 <div id="buttons-header" className='d-flex flex-row align-items-center'>
-                    <button
-                        className="login__btn me-3"
-                        onClick={() => refresh(setGlobalState)}
-                        >
-                        Actualizar
-                    </button>
+                    {!canAdd && (
+                        <button
+                            className="login__btn me-3"
+                            onClick={() => refresh(setGlobalState)}
+                            >
+                            Actualizar
+                        </button>
+                    )}
                     { canManage ? <Dropdown setGlobalState={setGlobalState} mediosRequests={mediosRequests} /> : (
                         <button className="login__btn" onClick={logout}>
                             Cerrar Sesión

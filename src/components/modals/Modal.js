@@ -1,9 +1,5 @@
-import React, { useState } from 'react';
-import moment from 'moment';
+import React from 'react';
 import ReactModal from 'react-modal';
-import Datepicker from 'react-datepicker';
-import { TODAY } from '../CaptureForm';
-import { updateMedio } from '../../services/medios';
 
 ReactModal.setAppElement('#root');
 

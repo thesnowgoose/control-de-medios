@@ -31,7 +31,7 @@ const router = createBrowserRouter(
       Component={Root}
       errorElement={<div>Error</div>}
     >
-      <Route errorElement={<div>Error</div>}>
+      <Route errorElement={<div>Error on route</div>}>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route exact path="/login" Component={Login} />
         <Route path="/home" Component={Home} />

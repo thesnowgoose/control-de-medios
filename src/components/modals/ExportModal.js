@@ -8,20 +8,23 @@ export function ExportModal({ setGlobalState, setIsOpen, mediosRequests}) {
     const [step, setStep] = useState(EXPORT_STEP)
     const completedRecords = mediosRequests.filter(record => !!record.deliverDate);
 
-    if (step === EXPORT_STEP) return <ExportMedios completedRecords={completedRecords} setStep={setStep}  />
+    if (step === EXPORT_STEP) return <ExportMedios completedRecords={completedRecords} setStep={setStep} setIsOpen={setIsOpen} />
 
     return <RemoveMedios completedRecords={completedRecords} setGlobalState={setGlobalState} setIsOpen={setIsOpen} />
     
 }
 
-const ExportMedios = ({ completedRecords, setStep }) => {
+const ExportMedios = ({ completedRecords, setStep, setIsOpen }) => {
+    const allowBackup = !!completedRecords.length;
     const onClick = () => {
-        exportMedios(completedRecords);
-        setStep(REMOVE_STEP);
+        if (allowBackup) {
+            exportMedios(completedRecords);
+            setStep(REMOVE_STEP);
+        } else setIsOpen(false);
     }
     return (
         <div>
-            {completedRecords.length ? (
+            {allowBackup ? (
                 <span>Desea crear el respaldo de {completedRecords.length || 0} registros?</span>
             ) : (
                 <span>No hay registros completados para respaldar.</span>

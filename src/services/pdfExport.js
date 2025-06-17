@@ -6,7 +6,6 @@ export function exportToPDF(records) {
     records.forEach(el => {
         delete el.id
     });
-    debugger
     const fileName = moment(new Date()).format('DD-MMM-yyyy');
     const pdfFile = new jsPDF();
 

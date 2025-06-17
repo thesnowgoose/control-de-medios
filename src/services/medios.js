@@ -5,6 +5,7 @@ import
       doc, updateDoc, orderBy }
 from "firebase/firestore";
 import { db } from '../firebase';
+import { exportToPDF } from './pdfExport';
 
 export const readMediosTypes = async (setState) => {
     const q = query(collection(db, "medios"),  orderBy("code"));
@@ -75,7 +76,7 @@ export async function updateMedio(user, medio, updated, setState) {
 //================== Export Medios Requests ==================
 
 export function exportMedios(medios) {
-    exportJSONToCSV(medios);
+    exportToPDF(medios);
 }
 
 export function removeMedios(completedMedios, setGlobalState) {
@@ -102,27 +103,27 @@ const buildMedio = (res) => {
     }
 }
 
-function exportJSONToCSV(objArray) {
-const today = moment(new Date()).format('DD-MMM-yyyy');
-const arr = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray;
-const str =
-    `${Object.keys(arr[0])
-    .map((value) => `"${value}"`)
-    .join(',')}` + '\r\n';
+// function exportJSONToCSV(objArray) {
+//     const today = moment(new Date()).format('DD-MMM-yyyy');
+//     const arr = typeof objArray !== 'object' ? JSON.parse(objArray) : objArray;
+//     const str =
+//         `${Object.keys(arr[0])
+//         .map((value) => `"${value}"`)
+//         .join(',')}` + '\r\n';
 
-const csvContent = arr.reduce((st, next) => {
-    st +=
-    `${Object.values(next)
-        .map((value) => `"${value}"`)
-        .join(',')}` + '\r\n';
-    return st;
-}, str);
-var element = document.createElement('a');
-element.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvContent);
-element.target = '_blank';
-element.download = `${today}.csv`;
-element.click();
-}
+//     const csvContent = arr.reduce((st, next) => {
+//         st +=
+//         `${Object.values(next)
+//             .map((value) => `"${value}"`)
+//             .join(',')}` + '\r\n';
+//         return st;
+//     }, str);
+//     var element = document.createElement('a');
+//     element.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvContent);
+//     element.target = '_blank';
+//     element.download = `${today}.csv`;
+//     element.click();
+// }
 
 //================== Medios Types ==================
 

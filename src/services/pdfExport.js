@@ -2,10 +2,8 @@ import jsPDF from "jspdf";
 import moment from "moment";
 import { autoTable } from 'jspdf-autotable';
 
-export function exportToPDF(records) {
-    records.forEach(el => {
-        delete el.id
-    });
+export function exportToPDF(completedMedios) {
+    const records = completedMedios.map(({ id, ...rest }) => ({ ...rest }));
     const fileName = moment(new Date()).format('DD-MMM-yyyy');
     const pdfFile = new jsPDF();
 
@@ -20,7 +18,7 @@ export function exportToPDF(records) {
     autoTable(pdfFile, {
         head: [columns],
         body: rows,
-        startY: 60,
+        startY: 30,
         theme: "striped",
     });
 
